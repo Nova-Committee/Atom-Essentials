@@ -1,0 +1,4 @@
+rootProject.name = 'atomess'
+//include ':atomlib'
+//project(':atomlib').projectDir = new File('D:/workspace/minecraft/mods/MyMods/Atom/AtomLib/1.18')
+
