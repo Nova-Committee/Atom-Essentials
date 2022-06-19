@@ -1,4 +1,4 @@
-package nova.committee.atom.ess.common.cmd.member.banItem;
+package nova.committee.atom.ess.common.cmd.admin;
 
 import com.mojang.brigadier.Command;
 import com.mojang.brigadier.CommandDispatcher;
@@ -26,7 +26,6 @@ import java.util.Objects;
 public class UnBanItemCmd {
     @ConfigField
     public static String banItem = "unbanitem";
-    private static final UnbanAll CMD_ALL = new UnbanAll();
 
 
     public static void register(CommandDispatcher<CommandSourceStack> dispatcher) {
@@ -36,7 +35,7 @@ public class UnBanItemCmd {
                         .then(Commands.argument("item", ItemArgument.item())
                                 .executes(UnBanItemCmd::unban))
                         .then(Commands.literal("all")
-                                .executes(CMD_ALL))
+                                .executes(UnBanItemCmd::unbanAll))
 
         );
     }
@@ -45,20 +44,19 @@ public class UnBanItemCmd {
     private static int unban(CommandContext<CommandSourceStack> context) {
         try {
             BanUtil.removeItemFromJson(BanItemHandler.BANLIST, ItemArgument.getItem(context, "item").getItem());
-            context.getSource().getServer().getPlayerList().broadcastMessage(new TextComponent("Item unbanned: ")
+            context.getSource().getServer().getPlayerList().broadcastMessage(new TextComponent("解封物品: ")
                     .append(Objects.requireNonNull(ItemArgument.getItem(context, "item").getItem().getRegistryName()).toString()), ChatType.CHAT, Util.NIL_UUID);
-        } catch(IndexOutOfBoundsException e) {
-            context.getSource().sendFailure(new TextComponent("The item could not be unbanned."));
+        } catch (IndexOutOfBoundsException e) {
+            context.getSource().sendFailure(new TextComponent("这个物品不能被封禁!"));
         }
         return 1;
     }
 
-    public static class UnbanAll implements Command<CommandSourceStack> {
-        @Override
-        public int run(CommandContext<CommandSourceStack> context) throws CommandSyntaxException {
-            BanUtil.removeAllItemsFromJson(BanItemHandler.BANLIST);
-            context.getSource().getServer().getPlayerList().broadcastMessage(new TextComponent("All items unbanned"), ChatType.CHAT, Util.NIL_UUID);
-            return 0;
-        }
+
+    public static int unbanAll(CommandContext<CommandSourceStack> context) throws CommandSyntaxException {
+        BanUtil.removeAllItemsFromJson(BanItemHandler.BANLIST);
+        context.getSource().getServer().getPlayerList().broadcastMessage(new TextComponent("所有物品已经被解封!"), ChatType.CHAT, Util.NIL_UUID);
+        return 1;
     }
+
 }

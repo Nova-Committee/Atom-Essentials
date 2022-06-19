@@ -19,6 +19,8 @@ import java.io.File;
 import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
+
 /**
  * Description:
  * Author: cnlimiter
@@ -39,18 +41,22 @@ public class BanItemHandler {
     }
 
 
-    @SubscribeEvent
-    public void onEntityJoinWorld(EntityJoinWorldEvent event) {
-        if(event.getEntity() instanceof ItemEntity) {
-            if(shouldDelete(((ItemEntity) event.getEntity()).getItem())) {
-                event.setCanceled(true);
-            }
+    public static String itemListToString(List<Item> itemList) {
+        StringBuilder builder = new StringBuilder();
+        builder.append('[');
+        for (Item item : itemList) {
+            Optional.ofNullable(item.getRegistryName()).ifPresent(resourceLocation ->
+                    builder.append(resourceLocation.toString()).append(", "));
+
         }
+        if (itemList.size() > 0) builder.delete(builder.length() - 2, builder.length());
+        builder.append(']');
+        return builder.toString();
     }
 
     @SubscribeEvent
     public void onItemPickup(PlayerEvent.ItemPickupEvent event) {
-        if(shouldDelete(event.getStack())) {
+        if (shouldDelete(event.getStack())) {
             event.setCanceled(true);
         }
     }
@@ -67,18 +73,16 @@ public class BanItemHandler {
     public static boolean shouldDelete(ItemStack stack) {
         BanItemEvent event = new BanItemEvent(stack);
         MinecraftForge.EVENT_BUS.post(event);
-        if(event.getResult() == Event.Result.DEFAULT) return BANNED_ITEMS.contains(stack.getItem());
+        if (event.getResult() == Event.Result.DEFAULT) return BANNED_ITEMS.contains(stack.getItem());
         else return event.getResult() == Event.Result.DENY;
     }
 
-    public static String itemListToString(List<Item> itemList) {
-        StringBuilder builder = new StringBuilder();
-        builder.append('[');
-        for(Item item: itemList) {
-            builder.append(item.getRegistryName().toString()).append(", ");
+    @SubscribeEvent
+    public void onEntityJoinWorld(EntityJoinWorldEvent event) {
+        if (event.getEntity() instanceof ItemEntity itemEntity) {
+            if (shouldDelete(itemEntity.getItem())) {
+                event.setCanceled(true);
+            }
         }
-        if(itemList.size() > 0) builder.delete(builder.length() - 2, builder.length());
-        builder.append(']');
-        return builder.toString();
     }
 }

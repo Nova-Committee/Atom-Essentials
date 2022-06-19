@@ -1,4 +1,4 @@
-package nova.committee.atom.ess.common.cmd.member.banItem;
+package nova.committee.atom.ess.common.cmd.member;
 
 import com.mojang.brigadier.CommandDispatcher;
 import net.minecraft.commands.CommandSourceStack;
@@ -30,7 +30,7 @@ public class BanItemListCmd {
 
 
     private static int banList(ServerPlayer source) {
-        source.displayClientMessage(new TextComponent("Items banned: ").append(BanItemHandler.itemListToString(BanItemHandler.BANNED_ITEMS)), false);
+        source.displayClientMessage(new TextComponent("已经封禁的物品: ").append(BanItemHandler.itemListToString(BanItemHandler.BANNED_ITEMS)), false);
         return 1;
     }
 }

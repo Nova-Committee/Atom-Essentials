@@ -1,4 +1,4 @@
-package nova.committee.atom.ess.common.cmd.member.banItem;
+package nova.committee.atom.ess.common.cmd.admin;
 
 import com.mojang.brigadier.CommandDispatcher;
 import com.mojang.brigadier.context.CommandContext;
@@ -37,8 +37,8 @@ public class BanItemCmd {
 
     private static int ban(CommandContext<CommandSourceStack> context) {
         BanUtil.appendItemToJson(BanItemHandler.BANLIST, ItemArgument.getItem(context, "item").getItem());
-        context.getSource().getServer().getPlayerList().broadcastMessage(new TextComponent("Item banned: ")
-                .append(Objects.requireNonNull(ItemArgument.getItem(context, "item").getItem().getRegistryName()).toString()),
+        context.getSource().getServer().getPlayerList().broadcastMessage(new TextComponent("封禁物品: ")
+                        .append(Objects.requireNonNull(ItemArgument.getItem(context, "item").getItem().getRegistryName()).toString()),
                 ChatType.CHAT, Util.NIL_UUID);
         return 1;
     }

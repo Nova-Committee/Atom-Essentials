@@ -5,9 +5,9 @@ import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 import nova.committee.atom.ess.common.cmd.admin.*;
 import nova.committee.atom.ess.common.cmd.member.TrashcanCmd;
-import nova.committee.atom.ess.common.cmd.member.banItem.BanItemCmd;
-import nova.committee.atom.ess.common.cmd.member.banItem.BanItemListCmd;
-import nova.committee.atom.ess.common.cmd.member.banItem.UnBanItemCmd;
+import nova.committee.atom.ess.common.cmd.admin.BanItemCmd;
+import nova.committee.atom.ess.common.cmd.member.BanItemListCmd;
+import nova.committee.atom.ess.common.cmd.admin.UnBanItemCmd;
 import nova.committee.atom.ess.common.cmd.teleport.*;
 
 /**

@@ -5,6 +5,8 @@ import net.minecraft.network.chat.FormattedText;
 import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.network.chat.TextComponent;
 import net.minecraft.util.FormattedCharSequence;
+import net.minecraftforge.fml.common.Mod;
+import nova.committee.atom.ess.Static;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -20,7 +22,7 @@ import java.util.Locale;
 public class ColorfulString {
     public static final char COLOR_CHAR = '§';
 
-    private final MutableComponent text = new TextComponent("");
+    private final TextComponent text = new TextComponent("");
 
     public ColorfulString(String rawString) {
         this(Collections.singletonList(rawString));
@@ -64,7 +66,7 @@ public class ColorfulString {
         return result;
     }
 
-    public MutableComponent getText() {
+    public TextComponent getText() {
         return this.text;
     }
 
