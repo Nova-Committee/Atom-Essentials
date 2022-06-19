@@ -3,18 +3,26 @@ buildscript {
         maven { url = 'https://maven.minecraftforge.net' }
         maven { url = 'https://repo.spongepowered.org/repository/maven-public/' }
         maven { url = 'https://maven.parchmentmc.org' }
+        maven { url = 'https://oss.sonatype.org/content/groups/public/' }
+        maven { url = "https://jitpack.io" }
         mavenCentral()
     }
     dependencies {
         classpath group: 'net.minecraftforge.gradle', name: 'ForgeGradle', version: '5.1.+', changing: true
         classpath 'org.spongepowered:mixingradle:0.7-SNAPSHOT'
         classpath 'org.parchmentmc:librarian:1.+'
+        classpath group: 'gradle.plugin.com.github.johnrengelman', name: 'shadow', version: '7.1.2'
     }
+}
+
+plugins {
+    id 'com.github.johnrengelman.shadow' version '7.1.2'
 }
 
 apply plugin: 'net.minecraftforge.gradle'
 apply plugin: 'org.spongepowered.mixin'
 apply plugin: 'org.parchmentmc.librarian.forgegradle'
+apply plugin: 'com.github.johnrengelman.shadow'
 
 group = 'nova.committee'
 version = '1.18.2-1.0.0'
@@ -111,7 +119,16 @@ repositories {
         //location of the maven for curios api
         url = "https://maven.theillusivec4.top/"
     }
+    maven { url = "https://jitpack.io" }
     mavenCentral()
+    flatDir {
+        dirs('libs')
+    }
+}
+
+configurations {
+    shade
+    compileOnly.extendsFrom(shade)
 }
 
 dependencies {
@@ -121,6 +138,9 @@ dependencies {
     compileOnly fg.deobf("top.theillusivec4.curios:curios-forge:${curios_minecraft_version}-${curios_version}:api")
     runtimeOnly fg.deobf("top.theillusivec4.curios:curios-forge:${curios_minecraft_version}-${curios_version}")
     compileOnly 'net.luckperms:api:5.4'
+    shade("cn.evolvefield.mods.atom.lib:atomlib-forge:1.18.2-1.0.0")
+    runtimeOnly("cn.evolvefield.mods.atom.lib:atomlib-forge:1.18.2-1.0.0")
+    //shade ("com.github.cnlimiter:AtomLib:forge~1.18-SNAPSHOT")
 
     //compileOnly project(":atomlib")
     //runtimeOnly project(":atomlib")
@@ -128,7 +148,24 @@ dependencies {
     annotationProcessor 'org.spongepowered:mixin:0.8.5:processor'
 }
 
-// Example for how to get properties into the manifest for reading at runtime.
+shadowJar {
+    configurations = [project.configurations.shade]
+    classifier ''
+    //relocate 'cn.evolvefield.mods.atomlib','cn.evolvefield.mods.trafes.atomlib'
+
+    exclude("cn/evolvefield/mods/atom/lib/AtomLib.class")
+    //exclude("META-INF/MANIFEST.MF", "META-INF/mods.toml")
+    finalizedBy 'reobfShadowJar'
+}
+
+artifacts {
+    archives tasks.shadowJar
+}
+
+reobf {
+    shadowJar {}
+}
+
 jar {
     manifest {
         attributes([

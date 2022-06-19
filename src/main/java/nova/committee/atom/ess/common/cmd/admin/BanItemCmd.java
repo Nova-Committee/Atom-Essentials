@@ -2,6 +2,7 @@ package nova.committee.atom.ess.common.cmd.admin;
 
 import com.mojang.brigadier.CommandDispatcher;
 import com.mojang.brigadier.context.CommandContext;
+import com.mojang.brigadier.exceptions.CommandSyntaxException;
 import net.minecraft.Util;
 import net.minecraft.commands.CommandSourceStack;
 import net.minecraft.commands.Commands;
@@ -14,6 +15,7 @@ import nova.committee.atom.ess.init.handler.BanItemHandler;
 import nova.committee.atom.ess.util.BanUtil;
 
 import java.util.Objects;
+import java.util.Optional;
 
 /**
  * Description:
@@ -35,10 +37,10 @@ public class BanItemCmd {
     }
 
 
-    private static int ban(CommandContext<CommandSourceStack> context) {
-        BanUtil.appendItemToJson(BanItemHandler.BANLIST, ItemArgument.getItem(context, "item").getItem());
+    private static int ban(CommandContext<CommandSourceStack> context) throws CommandSyntaxException {
+        BanUtil.appendItemToJson(BanItemHandler.BANLIST, context.getSource().getPlayerOrException().getMainHandItem().getItem());
         context.getSource().getServer().getPlayerList().broadcastMessage(new TextComponent("封禁物品: ")
-                        .append(Objects.requireNonNull(ItemArgument.getItem(context, "item").getItem().getRegistryName()).toString()),
+                        .append(Optional.ofNullable(context.getSource().getPlayerOrException().getMainHandItem().getItem().getRegistryName()).toString()),
                 ChatType.CHAT, Util.NIL_UUID);
         return 1;
     }

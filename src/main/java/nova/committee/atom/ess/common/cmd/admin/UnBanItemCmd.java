@@ -1,6 +1,5 @@
 package nova.committee.atom.ess.common.cmd.admin;
 
-import com.mojang.brigadier.Command;
 import com.mojang.brigadier.CommandDispatcher;
 import com.mojang.brigadier.context.CommandContext;
 import com.mojang.brigadier.exceptions.CommandSyntaxException;
@@ -25,12 +24,12 @@ import java.util.Objects;
  */
 public class UnBanItemCmd {
     @ConfigField
-    public static String banItem = "unbanitem";
+    public static String unbanItem = "unbanitem";
 
 
     public static void register(CommandDispatcher<CommandSourceStack> dispatcher) {
         dispatcher.register(
-                Commands.literal(banItem)
+                Commands.literal(unbanItem)
                         .requires(context -> Static.cmdPermission(context, "atomess.command.ban.item.del", true))
                         .then(Commands.argument("item", ItemArgument.item())
                                 .executes(UnBanItemCmd::unban))

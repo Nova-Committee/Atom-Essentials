@@ -34,7 +34,7 @@ public class BanItemHandler {
 
 
     @SubscribeEvent
-    public void onServerStarting(ServerStartingEvent event) {
+    public static void onServerStarting(ServerStartingEvent event) {
         Path modFolder = event.getServer().getWorldPath(new LevelResource("serverconfig"));
         BANLIST = BanUtil.initialize(modFolder, "serverconfig", "itemblacklist.json");
         BANNED_ITEMS = BanUtil.readItemsFromJson(BANLIST);
@@ -55,16 +55,16 @@ public class BanItemHandler {
     }
 
     @SubscribeEvent
-    public void onItemPickup(PlayerEvent.ItemPickupEvent event) {
+    public static void onItemPickup(PlayerEvent.ItemPickupEvent event) {
         if (shouldDelete(event.getStack())) {
             event.setCanceled(true);
         }
     }
 
     @SubscribeEvent
-    public void onPlayerContainerOpen(PlayerContainerEvent event) {
-        for(int i = 0; i < event.getContainer().slots.size(); ++i) {
-            if(shouldDelete(event.getContainer().getItems().get(i))) {
+    public static void onPlayerContainerOpen(PlayerContainerEvent event) {
+        for (int i = 0; i < event.getContainer().slots.size(); ++i) {
+            if (shouldDelete(event.getContainer().getItems().get(i))) {
                 event.getContainer().getItems().set(i, ItemStack.EMPTY);
             }
         }
@@ -78,7 +78,7 @@ public class BanItemHandler {
     }
 
     @SubscribeEvent
-    public void onEntityJoinWorld(EntityJoinWorldEvent event) {
+    public static void onEntityJoinWorld(EntityJoinWorldEvent event) {
         if (event.getEntity() instanceof ItemEntity itemEntity) {
             if (shouldDelete(itemEntity.getItem())) {
                 event.setCanceled(true);

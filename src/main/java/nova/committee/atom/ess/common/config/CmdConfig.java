@@ -1,12 +1,11 @@
 package nova.committee.atom.ess.common.config;
 
 import net.minecraftforge.common.ForgeConfigSpec;
+import nova.committee.atom.ess.api.common.config.AbstractModConfig;
 import nova.committee.atom.ess.common.cmd.admin.FlyCmd;
 import nova.committee.atom.ess.common.cmd.admin.OpenInvCmd;
-import nova.committee.atom.ess.common.cmd.teleport.*;
-import nova.committee.atom.ess.api.common.config.AbstractModConfig;
 import nova.committee.atom.ess.common.cmd.member.TrashcanCmd;
-import nova.committee.atomess.common.cmd.teleport.*;
+import nova.committee.atom.ess.common.cmd.teleport.*;
 
 /**
  * Description:
@@ -88,7 +87,7 @@ public class CmdConfig extends AbstractModConfig {
     private ForgeConfigSpec.ConfigValue<? extends String> flyAlias;
     private ForgeConfigSpec.ConfigValue<? extends String> datePattern;
 
-    // scessential getRegistryName mob
+    // atomess getRegistryName mob
     private ForgeConfigSpec.IntValue entitiesWithinRadius;
 
     // invsee
@@ -419,12 +418,12 @@ public class CmdConfig extends AbstractModConfig {
                 .define("RankAlias", "rank", CmdConfig::isValidCommandAlias);
         this.builder.pop();
 
-        // /scessential ....
-        this.builder.push("Scessential");
+        // /essential ....
+        this.builder.push("atomess");
         this.builder.push("GetRegistryName");
         // getRegistryName
         entitiesWithinRadius = this.builder
-                .comment("The searching radius of command /scessential getRegistryName mob to get the registry names of nearby mobs in certain radius",
+                .comment("The searching radius of command /atomess getRegistryName mob to get the registry names of nearby mobs in certain radius",
                         "The radius is specified here.",
                         "Default value: 3 blocks (a 7 * 7 * 7 cube)")
                 .defineInRange("Radius", 3, 1, Integer.MAX_VALUE);

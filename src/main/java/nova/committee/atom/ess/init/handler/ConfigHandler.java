@@ -9,6 +9,7 @@ import nova.committee.atom.ess.Static;
 import nova.committee.atom.ess.api.common.config.AbstractModConfig;
 import nova.committee.atom.ess.common.config.CleanerConfig;
 import nova.committee.atom.ess.common.config.CmdConfig;
+import nova.committee.atom.ess.common.config.MotdConfig;
 
 import java.util.List;
 import java.util.Set;
@@ -35,7 +36,8 @@ public class ConfigHandler {
     public static Set<? extends AbstractModConfig> init() {
         Set<? extends AbstractModConfig> configs = Sets.newHashSet(
                 new CmdConfig(SERVER_BUILDER),
-                new CleanerConfig(SERVER_BUILDER)
+                new CleanerConfig(SERVER_BUILDER),
+                new MotdConfig(SERVER_BUILDER)
 
         );
         configs.forEach(AbstractModConfig::init);

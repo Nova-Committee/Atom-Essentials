@@ -19,6 +19,7 @@ import java.nio.file.Path;
 import java.nio.file.StandardCopyOption;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 /**
  * Description:
@@ -59,7 +60,7 @@ public class BanUtil {
             List<Item> returnedArrays = new ArrayList<>();
             assert array != null;
             for(JsonElement element: array) {
-                Item item = ForgeRegistries.ITEMS.getValue(new ResourceLocation(element.getAsString())).asItem();
+                Item item = Objects.requireNonNull(ForgeRegistries.ITEMS.getValue(new ResourceLocation(element.getAsString()))).asItem();
                 if(item != null && !(item instanceof AirItem)) {
                     returnedArrays.add(item);
                 }
@@ -79,7 +80,7 @@ public class BanUtil {
             JsonArray array = GsonHelper.fromJson(gson, reader, JsonArray.class);
             assert array != null;
 
-            JsonPrimitive string = new JsonPrimitive(item.getRegistryName().toString());
+            JsonPrimitive string = new JsonPrimitive(Objects.requireNonNull(item.getRegistryName()).toString());
             if(!array.contains(string))
                 array.add(string);
 
@@ -102,7 +103,8 @@ public class BanUtil {
             int itemLocation = -1;
             int i = 0;
             for(JsonElement element: array) {
-                if(element.getAsString().equals(item.getRegistryName().toString())) itemLocation = i;
+                if (element.getAsString().equals(Objects.requireNonNull(item.getRegistryName()).toString()))
+                    itemLocation = i;
                 i++;
             }
             array.remove(itemLocation);

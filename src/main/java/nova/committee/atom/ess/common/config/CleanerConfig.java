@@ -104,7 +104,7 @@ public class CleanerConfig extends AbstractModConfig {
                 .define("ItemEntitiesMatchMode", true);
         itemEntitiesWhitelist = builder
                 .comment("List of item registry names (E.g: minecraft:stone) not being cleaned.",
-                        "You could use /scessential getItemRegistryName item command with a item hold in your main hand to get it's registry name.",
+                        "You could use /atomess getItemRegistryName item command with a item hold in your main hand to get it's registry name.",
                         "You could also use minecraft:* or rats:* to add all items of certain mod to the whitelist.")
                 .define("ItemEntitiesWhitelist", Arrays.asList("minecraft:diamond", "minecraft:emerald"), ConfigHandler::isResourceLocationList);
         this.itemEntitiesBlacklist = this.builder
@@ -163,7 +163,7 @@ public class CleanerConfig extends AbstractModConfig {
                 .define("MobEntitiesMatchMode", true);
         this.mobEntitiesWhitelist = this.builder
                 .comment("List of mob resourcelocation names (E.g: minecraft:cow) not being cleaned.",
-                        "You could use /scessential getItemRegistryName mob to get the registry names of nearby mobs. (radius specified in Commands section)",
+                        "You could use /atomess getItemRegistryName mob to get the registry names of nearby mobs. (radius specified in Commands section)",
                         "You could also use minecraft:* or minecolonies:* to add all living entities of certain mod to whitelist.")
                 .define("MobEntitiesWhitelist", Arrays.asList("minecraft:cat", "minecraft:mule", "minecraft:wolf", "minecraft:horse",
                         "minecraft:donkey", "minecraft:wither", "minecraft:guardian", "minecraft:villager", "minecraft:iron_golem", "minecraft:snow_golem",
