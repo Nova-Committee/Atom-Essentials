@@ -85,5 +85,7 @@
   "text.atomess.timePlayedButton": "游戏时间",
   "text.atomess.timePlayedTitle": "游戏时间排行榜",
   "text.atomess.trashcan": "垃圾桶",
-  "text.atomess.trashcanTitle": "%d 秒后清除！"
+  "text.atomess.trashcanTitle": "%d 秒后清除！",
+  "unit.lock.name": "安全",
+  "unit.lock.msg.error.notyours": "%s ,这个容器不属于你!"
 }
