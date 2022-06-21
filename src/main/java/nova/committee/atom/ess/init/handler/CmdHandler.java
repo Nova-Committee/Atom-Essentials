@@ -4,10 +4,9 @@ import net.minecraftforge.event.RegisterCommandsEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 import nova.committee.atom.ess.common.cmd.admin.*;
-import nova.committee.atom.ess.common.cmd.member.TrashcanCmd;
-import nova.committee.atom.ess.common.cmd.admin.BanItemCmd;
 import nova.committee.atom.ess.common.cmd.member.BanItemListCmd;
-import nova.committee.atom.ess.common.cmd.admin.UnBanItemCmd;
+import nova.committee.atom.ess.common.cmd.member.TrashcanCmd;
+import nova.committee.atom.ess.common.cmd.misc.HatCmd;
 import nova.committee.atom.ess.common.cmd.teleport.*;
 
 /**
@@ -20,36 +19,39 @@ import nova.committee.atom.ess.common.cmd.teleport.*;
 public class CmdHandler {
 
     @SubscribeEvent
-    public static void registryCmd(RegisterCommandsEvent event){
-        BackCmd.register(event.getDispatcher());
+    public static void registryCmd(RegisterCommandsEvent event) {
+        final var dispatcher = event.getDispatcher();
 
-        RtpCmd.register(event.getDispatcher());
+        BackCmd.register(dispatcher);
 
-        SpawnCmd.register(event.getDispatcher());
+        RtpCmd.register(dispatcher);
 
-        TrashcanCmd.register(event.getDispatcher());
+        SpawnCmd.register(dispatcher);
 
-        WarpCmd.register(event.getDispatcher());
+        TrashcanCmd.register(dispatcher);
 
-        HomeCmd.register(event.getDispatcher());
+        WarpCmd.register(dispatcher);
 
-        TpaCmd.register(event.getDispatcher());
+        HomeCmd.register(dispatcher);
 
-        OpenInvCmd.register(event.getDispatcher());
+        TpaCmd.register(dispatcher);
 
-        FlyCmd.register(event.getDispatcher());
+        OpenInvCmd.register(dispatcher);
 
-        CleanCommand.register(event.getDispatcher());
+        FlyCmd.register(dispatcher);
 
-        DayCmd.register(event.getDispatcher());
+        CleanCommand.register(dispatcher);
 
-        NightCmd.register(event.getDispatcher());
+        DayCmd.register(dispatcher);
 
-        BanItemListCmd.register(event.getDispatcher());
+        NightCmd.register(dispatcher);
 
-        BanItemCmd.register(event.getDispatcher());
+        BanItemListCmd.register(dispatcher);
 
-        UnBanItemCmd.register(event.getDispatcher());
+        BanItemCmd.register(dispatcher);
 
+        UnBanItemCmd.register(dispatcher);
+
+        HatCmd.register(dispatcher);
     }
 }

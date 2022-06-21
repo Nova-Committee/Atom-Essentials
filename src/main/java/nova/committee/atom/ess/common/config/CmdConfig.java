@@ -5,6 +5,7 @@ import nova.committee.atom.ess.api.common.config.AbstractModConfig;
 import nova.committee.atom.ess.common.cmd.admin.FlyCmd;
 import nova.committee.atom.ess.common.cmd.admin.OpenInvCmd;
 import nova.committee.atom.ess.common.cmd.member.TrashcanCmd;
+import nova.committee.atom.ess.common.cmd.misc.HatCmd;
 import nova.committee.atom.ess.common.cmd.teleport.*;
 
 /**
@@ -516,6 +517,9 @@ public class CmdConfig extends AbstractModConfig {
         TrashcanCmd.trashcanAlias = trashcanAlias.get();
         TrashcanCmd.cleanTrashcanIntervalSeconds = cleanTrashcanIntervalSeconds.get();
 
+        // Hat
+        HatCmd.canHat = isHatEnable.get();
+        HatCmd.hatAlias = hatAlias.get();
     }
 
     private static boolean isValidCommandAlias(Object o) {
