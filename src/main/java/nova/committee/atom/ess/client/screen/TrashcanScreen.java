@@ -11,7 +11,7 @@ import net.minecraftforge.client.gui.widget.ExtendedButton;
 import nova.committee.atom.ess.Static;
 import nova.committee.atom.ess.common.menu.TrashcanMenu;
 import nova.committee.atom.ess.common.net.ClearTrashPacket;
-import nova.committee.atom.ess.init.handler.PacketHandler;
+import nova.committee.atom.ess.init.handler.NetworkHandler;
 import nova.committee.atom.ess.util.text.I18Util;
 import org.jetbrains.annotations.NotNull;
 
@@ -49,7 +49,7 @@ public class TrashcanScreen extends AbstractContainerScreen<TrashcanMenu> {
         super.init();
         this.addRenderableWidget(new ExtendedButton((this.width - this.imageWidth) / 2 + 135, (this.height - this.imageHeight) / 2 + 17, 34, 34,
                 I18Util.getContainerNameTextFromI18n(false, false, false,
-                        I18Util.getTranslationKey("text", "clear")), button -> PacketHandler.INSTANCE.sendToServer(new ClearTrashPacket())));
+                        I18Util.getTranslationKey("text", "clear")), button -> NetworkHandler.INSTANCE.sendToServer(new ClearTrashPacket())));
     }
 
 
