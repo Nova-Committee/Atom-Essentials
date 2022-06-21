@@ -37,10 +37,10 @@ public class BackCmd{
 
 
     public static void register(CommandDispatcher<CommandSourceStack> dispatcher) {
-       dispatcher.register(Commands.literal(backAlias)
-               .executes(BackCmd::execute)
-               .requires(context -> Static.cmdPermission(context, "atomess.command.tp.back", false))
-       ) ;
+        dispatcher.register(Commands.literal(backAlias)
+                .executes(BackCmd::execute)
+                .requires(context -> Static.cmdPermission(context, "atomess.command.tp.back", false))
+        );
     }
 
 
