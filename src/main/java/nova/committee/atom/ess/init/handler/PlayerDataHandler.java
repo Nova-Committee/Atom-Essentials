@@ -122,8 +122,7 @@ public class PlayerDataHandler {
     public static void onPlayerDied(LivingDeathEvent event) {
         LivingEntity entity = event.getEntityLiving();
         if (!entity.level.isClientSide) {
-            if (entity instanceof Player) {
-                ServerPlayer player = (ServerPlayer) entity;
+            if (entity instanceof ServerPlayer player) {
                 AESPlayerData data = getInstance(player);
                 data.addTeleportHistory(new TeleportPos(player));
             }

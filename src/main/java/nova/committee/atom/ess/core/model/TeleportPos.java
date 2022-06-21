@@ -69,5 +69,10 @@ public class TeleportPos implements INBTSerializable<CompoundTag> {
         this.pos = new BlockPos(nbt.getInt("x"), nbt.getInt("y"), nbt.getInt("z"));
     }
 
-
+    @Override
+    public String toString() {
+        String dimension = this.dimension.getRegistryName().getPath();
+        String blockpos = "x: " + this.pos.getX() + " y: " + this.pos.getY() + " z: " + this.pos.getZ();
+        return "World: " + dimension + "\nPosition: " + blockpos;
+    }
 }

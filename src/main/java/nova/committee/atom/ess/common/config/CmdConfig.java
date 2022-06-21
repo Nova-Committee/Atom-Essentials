@@ -104,9 +104,6 @@ public class CmdConfig extends AbstractModConfig {
     private ForgeConfigSpec.ConfigValue<? extends String> trashcanAlias;
     private ForgeConfigSpec.IntValue cleanTrashcanIntervalSeconds;
 
-    // Rank
-    private ForgeConfigSpec.BooleanValue isRankEnable;
-    private ForgeConfigSpec.ConfigValue<? extends String> rankAlias;
 
 
     public CmdConfig(ForgeConfigSpec.Builder builder) {
@@ -406,18 +403,6 @@ public class CmdConfig extends AbstractModConfig {
                 .define("InvseeAlias", "invsee", CmdConfig::isValidCommandAlias);
         this.builder.pop();
 
-        this.builder.push("Rank");
-        isRankEnable = this.builder
-                .comment("Set it to false to disable /rank command.",
-                        "Default value: true",
-                        "This option only work after server restarted or typed /reload command")
-                .define("isRankEnable", true);
-        rankAlias = this.builder
-                .comment("How to trigger command to open rank gui.",
-                        "Default value: rank",
-                        "Do not add \"/\"!")
-                .define("RankAlias", "rank", CmdConfig::isValidCommandAlias);
-        this.builder.pop();
 
         // /essential ....
         this.builder.push("atomess");
