@@ -1,5 +1,6 @@
 package nova.committee.atom.ess.init.registry;
 
+import cn.evolvefield.mods.atom.lib.utils.RegistryUtil;
 import net.minecraft.world.inventory.MenuType;
 import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
@@ -9,7 +10,6 @@ import nova.committee.atom.ess.Static;
 import nova.committee.atom.ess.common.menu.OthersInvMenu;
 import nova.committee.atom.ess.common.menu.RewardMenu;
 import nova.committee.atom.ess.common.menu.TrashcanMenu;
-import nova.committee.atom.ess.util.RegistryUtil;
 
 /**
  * Description:

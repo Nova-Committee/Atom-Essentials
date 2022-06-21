@@ -13,6 +13,7 @@ import net.minecraft.world.level.Level;
 import nova.committee.atom.ess.common.slot.AccessRewardSlot;
 import nova.committee.atom.ess.common.slot.RewardSlot;
 import nova.committee.atom.ess.init.registry.ModMenuTypes;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -28,12 +29,11 @@ public class RewardMenu extends AbstractContainerMenu {
     public static final int PLAYER_INVENTORY_SLOT_START = PLAYER_SLOT_START;
     public static final int PLAYER_SLOT_STOP = 3 * 9 + PLAYER_INVENTORY_SLOT_START + 8;
 
-
     private static int containerSize = 32;
     private static int slotSize = 18;
     private static int rewardSlotSizeX = 23;
     private static int rewardSlotSizeY = 28;
-    // Misc
+
     protected final Level level;
     protected final Player player;
     private Container rewardsContainer = new SimpleContainer(containerSize);
@@ -138,7 +138,7 @@ public class RewardMenu extends AbstractContainerMenu {
     }
 
     @Override
-    public ItemStack quickMoveStack(Player player, int slotIndex) {
+    public @NotNull ItemStack quickMoveStack(@NotNull Player player, int slotIndex) {
         Slot slot = this.slots.get(slotIndex);
         if (!slot.hasItem()) {
             return ItemStack.EMPTY;
@@ -146,7 +146,6 @@ public class RewardMenu extends AbstractContainerMenu {
 
         ItemStack itemStack = slot.getItem();
 
-        // Store changes if itemStack is not empty.
         if (itemStack.isEmpty()) {
             slot.set(ItemStack.EMPTY);
         } else {
@@ -157,7 +156,7 @@ public class RewardMenu extends AbstractContainerMenu {
     }
 
     @Override
-    public boolean stillValid(Player player) {
+    public boolean stillValid(@NotNull Player player) {
         return true;
     }
 }
