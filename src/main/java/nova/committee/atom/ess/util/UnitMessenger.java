@@ -35,10 +35,10 @@ public class UnitMessenger {
      */
     public void sendMessage(MutableComponent msgComponent, Player... players) {
 
-        for (Entity player : players) {
+        for (Player player : players) {
 
             MutableComponent component = getUnitName().append(msgComponent.withStyle(ChatFormatting.GREEN));
-            player.sendMessage(component, Util.NIL_UUID);
+            player.displayClientMessage(component, false);
         }
     }
 
@@ -50,10 +50,10 @@ public class UnitMessenger {
      */
     public void sendErrorMessage(MutableComponent msgComponent, Player... players) {
 
-        for (Entity player : players) {
+        for (Player player : players) {
 
             MutableComponent component = getUnitName().append(msgComponent.withStyle(ChatFormatting.RED));
-            player.sendMessage(component, Util.NIL_UUID);
+            player.displayClientMessage(component, false);
         }
     }
 

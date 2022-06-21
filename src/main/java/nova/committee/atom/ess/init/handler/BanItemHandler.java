@@ -6,6 +6,7 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.storage.LevelResource;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.entity.EntityJoinWorldEvent;
+import net.minecraftforge.event.entity.item.ItemEvent;
 import net.minecraftforge.event.entity.player.PlayerContainerEvent;
 import net.minecraftforge.event.entity.player.PlayerEvent;
 import net.minecraftforge.event.entity.player.PlayerInteractEvent;
@@ -55,6 +56,13 @@ public class BanItemHandler {
         return builder.toString();
     }
 
+    public static boolean shouldDelete(ItemStack stack) {
+        BanItemEvent event = new BanItemEvent(stack);
+        MinecraftForge.EVENT_BUS.post(event);
+        if (event.getResult() == Event.Result.DEFAULT) return BANNED_ITEMS.contains(stack.getItem());
+        else return event.getResult() == Event.Result.DENY;
+    }
+
     @SubscribeEvent
     public static void onItemPickup(PlayerEvent.ItemPickupEvent event) {
         if (shouldDelete(event.getStack())) {
@@ -67,18 +75,19 @@ public class BanItemHandler {
     public static void onPlayerContainerOpen(PlayerContainerEvent event) {
         for (int i = 0; i < event.getContainer().slots.size(); ++i) {
             if (shouldDelete(event.getContainer().getItems().get(i))) {
-                BanUtil.printErrorMessage(event.getContainer().getItems().get(i), event.getPlayer());
                 event.getContainer().getItems().set(i, ItemStack.EMPTY);
             }
         }
     }
 
-    public static boolean shouldDelete(ItemStack stack) {
-        BanItemEvent event = new BanItemEvent(stack);
-        MinecraftForge.EVENT_BUS.post(event);
-        if (event.getResult() == Event.Result.DEFAULT) return BANNED_ITEMS.contains(stack.getItem());
-        else return event.getResult() == Event.Result.DENY;
+    @SubscribeEvent
+    public static void onItemCrafted(PlayerEvent.ItemCraftedEvent event) {
+        if (shouldDelete(event.getCrafting())) {
+            BanUtil.printErrorMessage(event.getCrafting(), event.getPlayer());
+            event.setCanceled(true);
+        }
     }
+
 
     @SubscribeEvent
     public static void onEntityJoinWorld(EntityJoinWorldEvent event) {
