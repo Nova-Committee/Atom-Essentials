@@ -21,7 +21,7 @@ public class TeleportPos implements INBTSerializable<CompoundTag> {
     private BlockPos pos;
 
     public TeleportPos(Player player) {
-        this.dimension = player.level.dimension();
+        this.dimension = player.getCommandSenderWorld().dimension();
         this.pos = player.getOnPos();
     }
 

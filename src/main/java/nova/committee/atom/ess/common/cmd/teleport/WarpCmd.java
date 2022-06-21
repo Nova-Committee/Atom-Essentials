@@ -126,6 +126,7 @@ public class WarpCmd {
                         .withClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/warp " + warp.getKey()))
                         .withHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, hoverText))), false
                 );
+                index++;
             }
             player.displayClientMessage(new TextComponent(I18Util.getSeparator("=", 20)), false);
         });

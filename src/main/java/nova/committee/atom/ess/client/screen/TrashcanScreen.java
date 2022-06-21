@@ -52,16 +52,10 @@ public class TrashcanScreen extends AbstractContainerScreen<TrashcanMenu> {
                         I18Util.getTranslationKey("text", "clear")), button -> PacketHandler.INSTANCE.sendToServer(new ClearTrashPacket())));
     }
 
-    @Override
-    protected void renderLabels(@NotNull PoseStack p_97808_, int p_97809_, int p_97810_) {
-        super.renderLabels(p_97808_, p_97809_, p_97810_);
-    }
 
     @Override
     public void render(@NotNull PoseStack matrixStack, int mouseX, int mouseY, float partialTicks) {
-        this.renderBackground(matrixStack);
         super.render(matrixStack, mouseX, mouseY, partialTicks);
-        this.renderLabels(matrixStack, mouseX, mouseY);
         drawString(matrixStack, this.font, I18Util.getContainerNameTextFromI18n(false, false, false,
                         I18Util.getTranslationKey("text", "trashcanTitle"), this.menu.getTrashcan().getNextCleanSeconds()),
                 (this.width - this.imageWidth) / 2 + 65, (this.height - this.imageHeight) / 2 + this.titleLabelY, 0xfbfb54);

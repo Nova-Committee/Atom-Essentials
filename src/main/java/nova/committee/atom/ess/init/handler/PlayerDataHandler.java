@@ -29,7 +29,7 @@ import java.util.List;
  * Date: 2022/4/8 12:14
  * Version: 1.0
  */
-@Mod.EventBusSubscriber(modid = Static.MOD_ID, bus = Mod.EventBusSubscriber.Bus.FORGE)
+@Mod.EventBusSubscriber(bus = Mod.EventBusSubscriber.Bus.FORGE)
 public class PlayerDataHandler {
 
     public static final List<AESPlayerData> PLAYER_DATA_LIST = new ArrayList<>();

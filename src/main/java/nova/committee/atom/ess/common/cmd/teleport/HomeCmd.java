@@ -213,29 +213,32 @@ public class HomeCmd{
     }
 
     private static int listHome(ServerPlayer player) {
-        AESPlayerData data = PlayerDataHandler.getInstance(player);
-        Map<String, TeleportPos> homes = data.getHomes();
-        if (homes.isEmpty()) {
-            player.displayClientMessage(I18Util.getYellowTextFromI18n(true, false, false,
-                    I18Util.getTranslationKey("message", "noHome")), false);
-            return Command.SINGLE_SUCCESS;
-        }
-        player.displayClientMessage(new TextComponent(I18Util.getSeparator("=", 20)), false);
-        Set<String> names = homes.keySet();
-        int index = 1;
-        for (String name : names) {
-            TeleportPos teleportPos = homes.get(name);
-            MutableComponent text = I18Util.getGreenTextFromString(false, true, false, index + ": " + name);
-            text.setStyle(text.getStyle().withClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/home " + name))
-                    .withHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, new TextComponent(teleportPos.toString()).append("\n")
-                            .append(I18Util.getGreenTextFromI18n(true, false, false,
-                                    I18Util.getTranslationKey("message", "clickToTeleport"))
-                            ))));
-            player.displayClientMessage(text, false);
-            index++;
-        }
-        player.displayClientMessage(new TextComponent(I18Util.getSeparator("=", 20)), false);
-
+        Thread thread = new Thread(() -> {
+            AESPlayerData data = PlayerDataHandler.getInstance(player);
+            Map<String, TeleportPos> homes = data.getHomes();
+            if (homes.isEmpty()) {
+                player.displayClientMessage(I18Util.getYellowTextFromI18n(true, false, false,
+                        I18Util.getTranslationKey("message", "noHome")), false);
+                return;
+            }
+            player.displayClientMessage(new TextComponent(I18Util.getSeparator("=", 20)), false);
+            Set<String> names = homes.keySet();
+            int index = 1;
+            for (String name : names) {
+                TeleportPos teleportPos = homes.get(name);
+                MutableComponent text = I18Util.getGreenTextFromString(false, true, false, index + ": " + name);
+                text.setStyle(text.getStyle()
+                        .withClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/home " + name))
+                        .withHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, new TextComponent(teleportPos.toString()).append("\n")
+                                .append(I18Util.getGreenTextFromI18n(true, false, false,
+                                        I18Util.getTranslationKey("message", "clickToTeleport"))
+                                ))));
+                player.displayClientMessage(text, false);
+                index++;
+            }
+            player.displayClientMessage(new TextComponent(I18Util.getSeparator("=", 20)), false);
+        });
+        thread.start();
         return 1;
     }
 
