@@ -3,12 +3,16 @@ package nova.committee.atom.ess.util;
 import com.google.gson.*;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.GsonHelper;
+import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.AirItem;
 import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraftforge.fml.loading.FMLConfig;
 import net.minecraftforge.fml.loading.FMLPaths;
 import net.minecraftforge.fml.loading.FileUtils;
 import net.minecraftforge.registries.ForgeRegistries;
+import nova.committee.atom.ess.core.lock.ILockHolder;
 import nova.committee.atom.ess.init.handler.BanItemHandler;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -31,10 +35,16 @@ public class BanUtil {
     private static final Gson gson = new GsonBuilder().setPrettyPrinting().create();
     private static final Logger LOGGER = LogManager.getLogger();
 
+    public static final UnitMessenger MESSENGER = new UnitMessenger("ban.item");
+
+    public static void printErrorMessage(ItemStack itemStack, Player player) {
+        MESSENGER.sendErrorMessage(MESSENGER.getMessage("error.banned").append(" ").append(itemStack.getDisplayName().getString()), player);
+    }
+
     public static File initialize(Path folder, String folderName, String fileName) {
         File file = new File(FileUtils.getOrCreateDirectory(folder, folderName).toFile(), fileName);
         try {
-            if(file.createNewFile()) {
+            if (file.createNewFile()) {
                 Path defaultConfigPath = FMLPaths.GAMEDIR.get().resolve(FMLConfig.defaultConfigPath()).resolve("itemblacklist.json");
                 if (Files.exists(defaultConfigPath)) {
                     Files.copy(defaultConfigPath, file.toPath(), StandardCopyOption.REPLACE_EXISTING);

@@ -70,6 +70,6 @@ public class UnitMessenger {
      * @return The Unit's name in brackets.
      */
     private MutableComponent getUnitName() {
-        return new TextComponent("[").append(new TranslatableComponent("unit." + unitNameKey + ".name")).append("] ");
+        return new TextComponent("[").append(new TranslatableComponent("unit." + unitNameKey + ".name").withStyle(ChatFormatting.BOLD)).append("] ");
     }
 }

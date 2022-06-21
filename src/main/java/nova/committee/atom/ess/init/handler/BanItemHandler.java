@@ -58,6 +58,7 @@ public class BanItemHandler {
     @SubscribeEvent
     public static void onItemPickup(PlayerEvent.ItemPickupEvent event) {
         if (shouldDelete(event.getStack())) {
+            BanUtil.printErrorMessage(event.getStack(), event.getPlayer());
             event.setCanceled(true);
         }
     }
@@ -66,6 +67,7 @@ public class BanItemHandler {
     public static void onPlayerContainerOpen(PlayerContainerEvent event) {
         for (int i = 0; i < event.getContainer().slots.size(); ++i) {
             if (shouldDelete(event.getContainer().getItems().get(i))) {
+                BanUtil.printErrorMessage(event.getContainer().getItems().get(i), event.getPlayer());
                 event.getContainer().getItems().set(i, ItemStack.EMPTY);
             }
         }
@@ -90,6 +92,7 @@ public class BanItemHandler {
     @SubscribeEvent
     public static void onBlockItemPlace(PlayerInteractEvent.RightClickBlock event) {
         if (shouldDelete(event.getItemStack())) {
+            BanUtil.printErrorMessage(event.getItemStack(), event.getPlayer());
             event.setCanceled(true);
         }
 
