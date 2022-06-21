@@ -36,8 +36,8 @@ public class BanItemHandler {
 
     @SubscribeEvent
     public static void onServerStarting(ServerStartingEvent event) {
-        Path modFolder = event.getServer().getWorldPath(new LevelResource("serverconfig"));
-        BANLIST = BanUtil.initialize(modFolder, "serverconfig", "itemblacklist.json");
+        Path modFolder = FileHandler.MAIN_FOLDER.toPath();
+        BANLIST = BanUtil.initialize(modFolder, "itemblacklist.json");
         BANNED_ITEMS = BanUtil.readItemsFromJson(BANLIST);
     }
 
@@ -47,7 +47,7 @@ public class BanItemHandler {
         builder.append('[');
         for (Item item : itemList) {
             Optional.ofNullable(item.getRegistryName()).ifPresent(resourceLocation ->
-                    builder.append(resourceLocation.toString()).append(", "));
+                    builder.append(resourceLocation).append(", "));
 
         }
         if (itemList.size() > 0) builder.delete(builder.length() - 2, builder.length());

@@ -8,6 +8,7 @@ import net.minecraft.server.level.ServerPlayer;
 import nova.committee.atom.ess.Static;
 import nova.committee.atom.ess.api.common.config.ConfigField;
 import nova.committee.atom.ess.init.handler.BanItemHandler;
+import nova.committee.atom.ess.util.BanUtil;
 
 /**
  * Description:
@@ -30,7 +31,8 @@ public class BanItemListCmd {
 
 
     private static int banList(ServerPlayer source) {
-        source.displayClientMessage(new TextComponent("已经封禁的物品: ").append(BanItemHandler.itemListToString(BanItemHandler.BANNED_ITEMS)), false);
+        //BanUtil.printListMessage(BanItemHandler.itemListToString(BanItemHandler.BANNED_ITEMS), source);
+        source.displayClientMessage(new TextComponent("[封禁]已经封禁的物品: ").append(BanItemHandler.itemListToString(BanItemHandler.BANNED_ITEMS)), false);
         return 1;
     }
 }

@@ -39,8 +39,8 @@ public class BanItemCmd {
 
     private static int ban(CommandContext<CommandSourceStack> context) throws CommandSyntaxException {
         BanUtil.appendItemToJson(BanItemHandler.BANLIST, context.getSource().getPlayerOrException().getMainHandItem().getItem());
-        context.getSource().getServer().getPlayerList().broadcastMessage(new TextComponent("封禁物品: ")
-                        .append(Optional.ofNullable(context.getSource().getPlayerOrException().getMainHandItem().getItem().getRegistryName()).toString()),
+        context.getSource().getServer().getPlayerList().broadcastMessage(new TextComponent("[封禁]封禁物品: ")
+                        .append(Objects.requireNonNull(context.getSource().getPlayerOrException().getMainHandItem().getItem().getRegistryName()).toString()),
                 ChatType.CHAT, Util.NIL_UUID);
         return 1;
     }

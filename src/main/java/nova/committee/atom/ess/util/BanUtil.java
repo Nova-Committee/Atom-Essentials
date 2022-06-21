@@ -41,8 +41,9 @@ public class BanUtil {
         MESSENGER.sendErrorMessage(MESSENGER.getMessage("error.banned").append(" ").append(itemStack.getDisplayName().getString()), player);
     }
 
-    public static File initialize(Path folder, String folderName, String fileName) {
-        File file = new File(FileUtils.getOrCreateDirectory(folder, folderName).toFile(), fileName);
+
+    public static File initialize(Path folder, String fileName) {
+        File file = new File(folder.toFile(), fileName);
         try {
             if (file.createNewFile()) {
                 Path defaultConfigPath = FMLPaths.GAMEDIR.get().resolve(FMLConfig.defaultConfigPath()).resolve("itemblacklist.json");
