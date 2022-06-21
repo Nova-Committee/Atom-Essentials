@@ -8,6 +8,7 @@ import net.minecraftforge.event.world.BlockEvent;
 import net.minecraftforge.event.world.ExplosionEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
+import nova.committee.atom.ess.api.common.config.ConfigField;
 import nova.committee.atom.ess.core.lock.ILockHolder;
 import nova.committee.atom.ess.util.Location;
 import nova.committee.atom.ess.util.LockUtil;
@@ -24,15 +25,18 @@ import java.util.List;
 @Mod.EventBusSubscriber(bus = Mod.EventBusSubscriber.Bus.FORGE)
 public class LockHandler {
 
+    @ConfigField
+    public static boolean isLockEnable = false;
 
     @SubscribeEvent
     public static void onBlockOpen(PlayerInteractEvent.RightClickBlock event) {
         Location location = new Location(event.getPlayer().getLevel(), event.getPos());
 
-        if (!LockUtil.canEditSecuredBlock(location, event.getPlayer())) {
-            LockUtil.printErrorMessage(location, event.getPlayer());
-            event.setCanceled(true);
-        }
+        if (isLockEnable)
+            if (!LockUtil.canEditSecuredBlock(location, event.getPlayer())) {
+                LockUtil.printErrorMessage(location, event.getPlayer());
+                event.setCanceled(true);
+            }
 
     }
 
@@ -40,27 +44,27 @@ public class LockHandler {
     public static void onBlockPlace(BlockEvent.EntityPlaceEvent event) {
 
         BlockEntity blockEntity = event.getWorld().getBlockEntity(event.getPos());
-
-        if (event.getEntity() instanceof Player player && blockEntity instanceof ILockHolder securityHolder) {
-            securityHolder.getLockProfile().setOwner(player);
-            blockEntity.setChanged();
-        }
+        if (isLockEnable)
+            if (event.getEntity() instanceof Player player && blockEntity instanceof ILockHolder securityHolder) {
+                securityHolder.getLockProfile().setOwner(player);
+                blockEntity.setChanged();
+            }
     }
 
     @SubscribeEvent
     public static void onBlockBreak(BlockEvent.BreakEvent event) {
 
         Location location = new Location(event.getPlayer().getLevel(), event.getPos());
+        if (isLockEnable)
+            if (!event.getPlayer().isCreative()) {
 
-        if (!event.getPlayer().isCreative()) {
+                if (!LockUtil.canEditSecuredBlock(location, event.getPlayer())) {
 
-            if (!LockUtil.canEditSecuredBlock(location, event.getPlayer())) {
+                    event.setCanceled(true);
+                    LockUtil.printErrorMessage(location, event.getPlayer());
+                }
 
-                event.setCanceled(true);
-                LockUtil.printErrorMessage(location, event.getPlayer());
             }
-
-        }
     }
 
 
@@ -69,16 +73,18 @@ public class LockHandler {
 
         List<BlockPos> affectedBlocks = event.getExplosion().getToBlow();
         List<BlockPos> securedBlocksFound = new ArrayList<>();
+        if (isLockEnable) {
+            for (BlockPos pos : affectedBlocks) {
 
-        for (BlockPos pos : affectedBlocks) {
+                BlockEntity blockEntity = event.getWorld().getBlockEntity(pos);
 
-            BlockEntity blockEntity = event.getWorld().getBlockEntity(pos);
-
-            if (blockEntity instanceof ILockHolder) {
-                securedBlocksFound.add(pos);
+                if (blockEntity instanceof ILockHolder) {
+                    securedBlocksFound.add(pos);
+                }
             }
+
+            affectedBlocks.removeAll(securedBlocksFound);
         }
 
-        affectedBlocks.removeAll(securedBlocksFound);
     }
 }

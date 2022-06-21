@@ -41,9 +41,9 @@ public class MotdConfig extends AbstractModConfig {
                         "You could add many [\"\", \"\"] to dynamically change the motd.",
                         "You could also use '&' or '§' to specify the format of each line of description.",
                         "For more information about formatting, please check google or minecraft wiki.",
-                        "Default value: [[\"&a&lFirst line &fof &b&lMOTD&f!\", \"&kSecond!\"], [\"Thanks for using &d&lScott's Essential&f!\", \"&6&lWuuuhoooooo\"]]")
+                        "Default value: [[\"&a&lFirst line &fof &b&lMOTD&f!\", \"&kSecond!\"], [\"Thanks for using &d&lAtom Essentials&f!\", \"&6&lWuuuhoooooo\"]]")
                 .define("Descriptions", Arrays.asList(Arrays.asList("&a&lFirst line &fof &b&lMOTD&f!", "&kSecond!"),
-                                Arrays.asList("Thanks for using &d&lScott's Essential&f!", "&6&lWuuuhoooooo")),
+                                Arrays.asList("Thanks for using &d&lAtom Essentials&f!", "&6&lWuuuhoooooo")),
                         MotdConfig::isValidMOTD);
         this.builder.pop();
     }
