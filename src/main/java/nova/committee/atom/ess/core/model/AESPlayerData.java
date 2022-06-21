@@ -281,4 +281,12 @@ public class AESPlayerData {
     }
 
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof AESPlayerData that)) return false;
+        return this.uuid.equals(that.uuid);
+    }
+
+
 }

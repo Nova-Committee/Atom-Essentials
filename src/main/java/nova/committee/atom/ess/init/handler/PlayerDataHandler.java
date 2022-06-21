@@ -93,9 +93,9 @@ public class PlayerDataHandler {
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
-            synchronized (PLAYER_DATA_LIST) {
+            //synchronized (PLAYER_DATA_LIST) {
                 PLAYER_DATA_LIST.remove(getInstance(event.getPlayer()));
-            }
+            //}
         }).start();
     }
 
