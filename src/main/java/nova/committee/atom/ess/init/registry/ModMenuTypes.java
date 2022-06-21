@@ -7,6 +7,7 @@ import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.registries.IForgeRegistry;
 import nova.committee.atom.ess.Static;
 import nova.committee.atom.ess.common.menu.OthersInvMenu;
+import nova.committee.atom.ess.common.menu.RewardMenu;
 import nova.committee.atom.ess.common.menu.TrashcanMenu;
 import nova.committee.atom.ess.util.RegistryUtil;
 
@@ -20,8 +21,8 @@ import nova.committee.atom.ess.util.RegistryUtil;
 public class ModMenuTypes {
 
     public static MenuType<TrashcanMenu> trashcanContainerType;
-
     public static MenuType<OthersInvMenu> othersContainerType;
+    public static MenuType<RewardMenu> rewardMenuType;
 
     @SubscribeEvent
     public static void registerContainers(RegistryEvent.Register<MenuType<?>> event) {
@@ -29,7 +30,8 @@ public class ModMenuTypes {
 
         registry.registerAll(
                 trashcanContainerType = RegistryUtil.registerContainer("trashcan", TrashcanMenu::getClientSideInstance),
-                othersContainerType = RegistryUtil.registerContainer("others_inv", OthersInvMenu::getClientSideInstance)
+                othersContainerType = RegistryUtil.registerContainer("others_inv", OthersInvMenu::getClientSideInstance),
+                rewardMenuType = RegistryUtil.registerContainer("reward", RewardMenu::getClientSideInstance)
 
 
         );

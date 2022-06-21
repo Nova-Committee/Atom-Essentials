@@ -26,13 +26,14 @@ public class FileHandler {
     public static File INFO_STORAGE_FOLDER;
     public static File WARPS_FILE;
     public static File STATISTICS_FILE;
-
+    public static File Reward_FOLDER;
 
     @SubscribeEvent
     public static void onServerInit(ServerAboutToStartEvent event) {
         Static.SERVER = event.getServer();
         ATOM_FOLDER = FileUtil.checkFolder(FMLPaths.GAMEDIR.get().resolve("atom")).toFile();
-        MAIN_FOLDER = FileUtil.checkFolder(new File(ATOM_FOLDER.getAbsolutePath() + "/" + "essential"));
+        MAIN_FOLDER = FileUtil.checkFolder(new File(ATOM_FOLDER.getAbsolutePath() + "/" + "essentials"));
+        Reward_FOLDER = FileUtil.checkFolder(new File(MAIN_FOLDER.getAbsolutePath() + "/" + "rewards"));
         init();
     }
 

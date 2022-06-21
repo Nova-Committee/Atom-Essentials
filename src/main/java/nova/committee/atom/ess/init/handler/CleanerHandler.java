@@ -36,7 +36,7 @@ import java.util.stream.StreamSupport;
  * Date: 2022/4/8 15:00
  * Version: 1.0
  */
-@Mod.EventBusSubscriber(modid = Static.MOD_ID, bus = Mod.EventBusSubscriber.Bus.FORGE)
+@Mod.EventBusSubscriber(bus = Mod.EventBusSubscriber.Bus.FORGE)
 public class CleanerHandler {
 
     // Clean item
@@ -197,12 +197,11 @@ public class CleanerHandler {
         AtomicInteger amount = new AtomicInteger();
 
         worlds.forEach(world ->
-                        StreamSupport.stream(world.getAllEntities().spliterator(), false)
-
-                .filter(entity -> entity.getCustomName() == null)
-                .filter(type)
-                .filter(additionalPredicate)
+                world.getAllEntities()
                 .forEach(entity -> {
+                    if (entity.getCustomName() == null || type.test(entity) || additionalPredicate.test(entity)) {
+                        return;
+                    }
                     entity.remove(Entity.RemovalReason.DISCARDED);
                     if (entity instanceof ItemEntity) {
                         amount.getAndAdd(((ItemEntity) entity).getItem().getCount());
