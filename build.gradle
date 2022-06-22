@@ -138,8 +138,8 @@ dependencies {
     compileOnly fg.deobf("top.theillusivec4.curios:curios-forge:${curios_minecraft_version}-${curios_version}:api")
     runtimeOnly fg.deobf("top.theillusivec4.curios:curios-forge:${curios_minecraft_version}-${curios_version}")
     compileOnly 'net.luckperms:api:5.4'
-    shade("cn.evolvefield.mods.atom.lib:atomlib-forge:1.18.2-1.0.0")
-    runtimeOnly("cn.evolvefield.mods.atom.lib:atomlib-forge:1.18.2-1.0.0")
+    shade("cn.evolvefield.mods.atom.lib:atomlib-forge:1.18.2-1.0.1")
+    runtimeOnly("cn.evolvefield.mods.atom.lib:atomlib-forge:1.18.2-1.0.1")
     //shade ("com.github.cnlimiter:AtomLib:forge~1.18-SNAPSHOT")
 
     //compileOnly project(":atomlib")

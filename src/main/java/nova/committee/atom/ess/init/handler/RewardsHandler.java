@@ -1,13 +1,13 @@
 package nova.committee.atom.ess.init.handler;
 
-import net.minecraft.world.item.ItemStack;
+import cn.evolvefield.mods.atom.lib.utils.FileUtil;
+import cn.evolvefield.mods.atom.lib.utils.json.JsonUtil;
 import net.minecraftforge.event.server.ServerStartingEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
-import nova.committee.atom.ess.core.reward.Rewards;
+import nova.committee.atom.ess.core.reward.ConfigRewards;
 
-import java.util.List;
-import java.util.concurrent.ConcurrentHashMap;
+import java.io.File;
 
 /**
  * Description:
@@ -17,20 +17,19 @@ import java.util.concurrent.ConcurrentHashMap;
  */
 @Mod.EventBusSubscriber(bus = Mod.EventBusSubscriber.Bus.FORGE)
 public class RewardsHandler {
-    private static ConcurrentHashMap<String, List<ItemStack>> rewardItemsMap =
-            new ConcurrentHashMap<>();
 
-    public static String getKeyId(int year, int month) {
-        return year + "-" + month;
-    }
 
     @SubscribeEvent
     public static void onServerStaring(ServerStartingEvent event) {
+        File config = new File(FileHandler.REWARD_FOLDER, "config.json");
+        ConfigRewards configRewards = new ConfigRewards();
+        if (!config.exists()) {
+            FileUtil.createSubFile("config.json", FileHandler.REWARD_FOLDER);
+            JsonUtil.write(config, configRewards.toDefaultJson());
+        }
+        configRewards.fromJson(JsonUtil.get(config));
 
     }
 
-    public List<ItemStack> getRewardsFor(int year, int month) {
-        String key = getKeyId(year, month);
-        return rewardItemsMap.computeIfAbsent(key, id -> Rewards.calculateRewardItemsForMonth(month));
-    }
+
 }

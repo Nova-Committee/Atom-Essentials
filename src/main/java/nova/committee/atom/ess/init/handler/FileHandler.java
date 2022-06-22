@@ -26,14 +26,15 @@ public class FileHandler {
     public static File INFO_STORAGE_FOLDER;
     public static File WARPS_FILE;
     public static File STATISTICS_FILE;
-    public static File Reward_FOLDER;
+    public static File REWARD_FOLDER;
+    public static File REWARD_PLAYER_FOLDER;
 
     @SubscribeEvent
     public static void onServerInit(ServerAboutToStartEvent event) {
         Static.SERVER = event.getServer();
         ATOM_FOLDER = FileUtil.checkFolder(FMLPaths.GAMEDIR.get().resolve("atom")).toFile();
         MAIN_FOLDER = FileUtil.checkFolder(new File(ATOM_FOLDER.getAbsolutePath() + "/" + "essentials"));
-        Reward_FOLDER = FileUtil.checkFolder(new File(MAIN_FOLDER.getAbsolutePath() + "/" + "rewards"));
+
         init();
     }
 
@@ -54,6 +55,8 @@ public class FileHandler {
         if (MAIN_FOLDER == null) return;
         PLAYER_DATA_FOLDER = FileUtil.checkFolder(new File(MAIN_FOLDER.getAbsolutePath() + "/" + "playerData"));
         INFO_STORAGE_FOLDER = FileUtil.checkFolder(new File(MAIN_FOLDER.getAbsolutePath() + "/" + "infoRecorder"));
+        REWARD_FOLDER = FileUtil.checkFolder(new File(MAIN_FOLDER.getAbsolutePath() + "/" + "rewards"));
+        REWARD_PLAYER_FOLDER = FileUtil.checkFolder(new File(REWARD_FOLDER.getAbsolutePath() + "/" + "playerData"));
         WARPS_FILE = new File(MAIN_FOLDER.getAbsolutePath() + "/" + "warps.dat");
         STATISTICS_FILE = new File(MAIN_FOLDER.getAbsolutePath() + "/" + "statistics.dat");
     }
