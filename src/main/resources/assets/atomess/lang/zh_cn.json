@@ -89,6 +89,12 @@
   "text.atomess.timePlayedTitle": "游戏时间排行榜",
   "text.atomess.trashcan": "垃圾桶",
   "text.atomess.trashcanTitle": "%d 秒后清除！",
+  "text.atomess.rewards.claim_rewards": "Claim your daily rewards with %1$s !",
+  "text.atomess.rewards.reward_screen": "Rewarded Days: %1$s day(s)",
+  "text.atomess.rewards.rewarded_item": "Congratulation %1$s you got %2$s as regonization for %3$s day(s) in this world for this month.",
+  "item.atomess.reward_item": "Taken reward.",
   "unit.lock.name": "安全",
-  "unit.lock.msg.error.notyours": "%s ,这个容器不属于你!"
+  "unit.lock.msg.error.notyours": "%s ,这个容器不属于你!",
+  "unit.ban.item.name": "封禁",
+  "unit.ban.item.msg.error.banned": "物品 %s 已经被封禁!"
 }
