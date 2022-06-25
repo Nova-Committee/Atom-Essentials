@@ -7,10 +7,7 @@ import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.event.config.ModConfigEvent;
 import nova.committee.atom.ess.Static;
 import nova.committee.atom.ess.api.common.config.AbstractModConfig;
-import nova.committee.atom.ess.common.config.CleanerConfig;
-import nova.committee.atom.ess.common.config.CmdConfig;
-import nova.committee.atom.ess.common.config.FuncConfig;
-import nova.committee.atom.ess.common.config.MotdConfig;
+import nova.committee.atom.ess.common.config.*;
 
 import java.util.List;
 import java.util.Set;
@@ -39,7 +36,8 @@ public class ConfigHandler {
                 new CmdConfig(SERVER_BUILDER),
                 new CleanerConfig(SERVER_BUILDER),
                 new MotdConfig(SERVER_BUILDER),
-                new FuncConfig(SERVER_BUILDER)
+                new FuncConfig(SERVER_BUILDER),
+                new RewardConfig(SERVER_BUILDER)
 
         );
         configs.forEach(AbstractModConfig::init);

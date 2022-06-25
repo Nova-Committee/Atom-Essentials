@@ -3,6 +3,8 @@ package nova.committee.atom.ess.core.reward;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.nbt.ListTag;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
@@ -16,6 +18,9 @@ import java.time.YearMonth;
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.stream.Collectors;
+
+import static nova.committee.atom.ess.util.RewardUtil.arrayToStacks;
+import static nova.committee.atom.ess.util.RewardUtil.stacksToArray;
 
 /**
  * Description:
@@ -155,23 +160,32 @@ public class ConfigRewards {
         return rareFillItems.get(random.nextInt(rareFillItems.size()));
     }
 
-    private static List<ItemStack> arrayToStacks(JsonArray array) {
-        List<ItemStack> itemStacks = new ArrayList<>();
-        for (JsonElement element : array) {
-            String itemName = element.getAsString();
-            if (RewardUtil.isStringItem(itemName))
-                itemStacks.add(new ItemStack(ForgeRegistries.ITEMS.getValue(new ResourceLocation(itemName))));
-        }
-        return itemStacks;
+    public List<ItemStack> getRewardsForCurrentMonth() {
+        return getRewardsFor(getCurrentYear(), getCurrentMonth());
     }
 
-    private static JsonArray stacksToArray(List<ItemStack> stacks) {
-        JsonArray array = new JsonArray();
-        for (ItemStack stack : stacks) {
-            array.add(Objects.requireNonNull(stack.getItem().getRegistryName()).toString());
+    public CompoundTag getRewardsForCurrentMonthSyncData() {
+        List<ItemStack> rewardItems = getRewardsForCurrentMonth();
+        CompoundTag syncData = new CompoundTag();
+        ListTag itemListTag = new ListTag();
+        for (ItemStack itemStack : rewardItems) {
+            CompoundTag itemStackTag = new CompoundTag();
+            itemStack.save(itemStackTag);
+            itemListTag.add(itemStackTag);
         }
-        return array;
+        syncData.put("ItemList", itemListTag);
+        return syncData;
     }
+
+    public ItemStack getRewardForCurrentMonth(int day) {
+        List<ItemStack> rewards = getRewardsForCurrentMonth();
+        int rewardIndex = --day;
+        if (rewardIndex >= 0 && rewards.size() > rewardIndex) {
+            return rewards.get(rewardIndex).copy();
+        }
+        return ItemStack.EMPTY;
+    }
+
 
     public JsonObject toDefaultJson() {
         JsonObject jsonObject = new JsonObject();
@@ -200,8 +214,9 @@ public class ConfigRewards {
         JsonArray rareFillItems = jsonObject.getAsJsonArray("rareFillItems");
         defaultRewardConfig.putIfAbsent("rareFillItems", arrayToStacks(rareFillItems));
 
+        JsonObject items = jsonObject.getAsJsonObject("itemList");
         for (int i = 1; i < 13; i++) {
-            JsonArray moths = jsonObject.getAsJsonArray(String.valueOf(i));
+            JsonArray moths = items.getAsJsonArray(String.valueOf(i));
             rewardItemsMap.putIfAbsent(String.valueOf(i), arrayToStacks(moths));
 
         }
@@ -210,13 +225,16 @@ public class ConfigRewards {
     public JsonObject toJson() {
         JsonObject jsonObject = new JsonObject();
 
+        JsonObject items = new JsonObject();
+
         jsonObject.add("normalFillItems", stacksToArray(defaultRewardConfig.get("normalFillItems")));
 
         jsonObject.add("rareFillItems", stacksToArray(defaultRewardConfig.get("rareFillItems")));
 
         for (int i = 1; i < 13; i++) {
-            jsonObject.add(String.valueOf(i), stacksToArray(rewardItemsMap.get(String.valueOf(i))));
+            items.add(String.valueOf(i), stacksToArray(rewardItemsMap.get(String.valueOf(i))));
         }
+        jsonObject.add("itemList", items);
         return jsonObject;
     }
 

@@ -12,6 +12,8 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import nova.committee.atom.ess.common.slot.AccessRewardSlot;
 import nova.committee.atom.ess.common.slot.RewardSlot;
+import nova.committee.atom.ess.core.reward.ClientRewards;
+import nova.committee.atom.ess.init.handler.RewardsHandler;
 import nova.committee.atom.ess.init.registry.ModMenuTypes;
 import org.jetbrains.annotations.NotNull;
 
@@ -52,13 +54,13 @@ public class RewardMenu extends AbstractContainerMenu {
         this.level = this.player.getLevel();
 
         // Sync rewarded days
-        this.rewardedDays = level.isClientSide ? RewardClientData.getRewardedDaysForCurrentMonth()
-                : RewardUserData.get().getRewardedDaysForCurrentMonth(player.getUUID());
+        this.rewardedDays = level.isClientSide ? ClientRewards.getRewardedDaysForCurrentMonth()
+                : RewardsHandler.userRewards.getRewardedDaysForCurrentMonth(player.getUUID());
 
         // Sync possible rewards items for current month
         List<ItemStack> rewardsForCurrentMonth =
-                level.isClientSide ? RewardClientData.getGeneralRewardsForCurrentMonth()
-                        : RewardData.get().getRewardsForCurrentMonth();
+                level.isClientSide ? ClientRewards.getGeneralRewardsForCurrentMonth()
+                        : RewardsHandler.configRewards.getRewardsForCurrentMonth();
         if (!rewardsForCurrentMonth.isEmpty()) {
             for (int index = 0; index < rewardsForCurrentMonth.size(); index++) {
                 this.rewardsContainer.setItem(index, rewardsForCurrentMonth.get(index));
@@ -67,8 +69,8 @@ public class RewardMenu extends AbstractContainerMenu {
 
         // Sync user rewarded items for current month
         List<ItemStack> userRewards =
-                level.isClientSide ? RewardClientData.getUserRewardsForCurrentMonth()
-                        : RewardUserData.get().getRewardsForCurrentMonth(player.getUUID());
+                level.isClientSide ? ClientRewards.getUserRewardsForCurrentMonth()
+                        : RewardsHandler.userRewards.getRewardsForCurrentMonth(player.getUUID());
         if (!userRewards.isEmpty()) {
             for (int index = 0; index < userRewards.size(); index++) {
                 this.rewardsUserContainer.setItem(index, userRewards.get(index));
@@ -127,9 +129,9 @@ public class RewardMenu extends AbstractContainerMenu {
             }
         }
         if (level.isClientSide) {
-            RewardClientData.setUserRewardsForCurrentMonth(userRewards);
+            ClientRewards.setUserRewardsForCurrentMonth(userRewards);
         } else {
-            RewardUserData.get().setRewardsForCurrentMonth(player.getUUID(), userRewards);
+            RewardsHandler.userRewards.setRewardsForCurrentMonth(player.getUUID(), userRewards);
         }
     }
 

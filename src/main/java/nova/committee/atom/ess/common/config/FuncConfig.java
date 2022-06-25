@@ -4,7 +4,6 @@ import net.minecraftforge.common.ForgeConfigSpec;
 import nova.committee.atom.ess.Static;
 import nova.committee.atom.ess.api.common.config.AbstractModConfig;
 import nova.committee.atom.ess.init.handler.LockHandler;
-import nova.committee.atom.ess.init.handler.MotdHandler;
 
 /**
  * Description:

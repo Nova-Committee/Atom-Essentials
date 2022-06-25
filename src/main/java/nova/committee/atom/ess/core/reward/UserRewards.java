@@ -1,13 +1,15 @@
 package nova.committee.atom.ess.core.reward;
 
+import com.google.gson.JsonArray;
+import com.google.gson.JsonObject;
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.nbt.ListTag;
 import net.minecraft.world.item.ItemStack;
 import nova.committee.atom.ess.Static;
+import nova.committee.atom.ess.util.RewardUtil;
 import org.apache.logging.log4j.Logger;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.UUID;
+import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 
 /**
@@ -26,9 +28,10 @@ public class UserRewards {
     private static ConcurrentHashMap<String, Integer> rewardedDaysMap = new ConcurrentHashMap<>();// months - days
     private static ConcurrentHashMap<String, String> lastRewardedDayMap = new ConcurrentHashMap<>();// months - lastReward
 
-
     public static String getKeyId(int year, int month, UUID uuid) {
         return year + "-" + month + ":" + uuid.toString();
+
+
     }
 
 
@@ -101,6 +104,19 @@ public class UserRewards {
         return getRewardedDays(ConfigRewards.getCurrentYear(), ConfigRewards.getCurrentMonth(), uuid);
     }
 
+    public CompoundTag getRewardsForCurrentMonthSyncData(UUID uuid) {
+        List<ItemStack> rewardItems = getRewardsForCurrentMonth(uuid);
+        CompoundTag syncData = new CompoundTag();
+        ListTag itemListTag = new ListTag();
+        for (ItemStack itemStack : rewardItems) {
+            CompoundTag itemStackTag = new CompoundTag();
+            itemStack.save(itemStackTag);
+            itemListTag.add(itemStackTag);
+        }
+        syncData.put("ItemList", itemListTag);
+        return syncData;
+    }
+
     public int increaseRewardedDays(int year, int month, UUID uuid) {
         String key = getKeyId(year, month, uuid);
         int rewardedDays = rewardedDaysMap.getOrDefault(key, 0);
@@ -110,6 +126,46 @@ public class UserRewards {
 
     public int increaseRewardedDaysForCurrentMonth(UUID uuid) {
         return increaseRewardedDays(ConfigRewards.getCurrentYear(), ConfigRewards.getCurrentMonth(), uuid);
+    }
+
+
+    public void fromJson(JsonObject jsonObject) {
+
+        var rewardKey = jsonObject.get("YearMonthUser").getAsString();
+        var rewardItems = RewardUtil.arrayToStacks(jsonObject.getAsJsonArray("RewardItems"));
+        var rewardedDays = jsonObject.get("RewardedDays").getAsInt();
+        var lastRewardedDay = jsonObject.get("LastRewardedDay").getAsString();
+
+        rewardItemsMap.put(rewardKey, rewardItems);
+
+        // Restoring last rewarded day and totally rewarded days for the month.
+        rewardedDaysMap.put(rewardKey, rewardedDays);
+        lastRewardedDayMap.put(rewardKey, lastRewardedDay);
+    }
+
+    public JsonObject toJson() {
+        JsonObject jsonObject = new JsonObject();
+
+        Set<String> rewardKeys = new HashSet<>();
+        rewardKeys.addAll(rewardItemsMap.keySet());
+        rewardKeys.addAll(rewardedDaysMap.keySet());
+        rewardKeys.addAll(lastRewardedDayMap.keySet());
+
+        if (rewardKeys.isEmpty()) {
+            log.warn("unable to save reward user data, because data are empty!");
+            return null;
+        }
+
+        for (String rewardKey : rewardKeys) {
+            jsonObject.addProperty("YearMonthUser", rewardKey);
+
+            List<ItemStack> rewardItems = rewardItemsMap.get(rewardKey);
+            jsonObject.add("RewardItems", RewardUtil.stacksToArray(rewardItems));
+            jsonObject.addProperty("RewardedDays", rewardedDaysMap.getOrDefault(rewardKey, 0));
+            jsonObject.addProperty("LastRewardedDay", lastRewardedDayMap.getOrDefault(rewardKey, ""));
+
+        }
+        return jsonObject;
     }
 
 

@@ -24,12 +24,17 @@ import java.util.concurrent.atomic.AtomicReference;
 public class Static {
     public static final String MOD_ID = "atomess";
 
+    public static final String REWARD_LOG = "Rewards";
+    public static final String REWARD_PREFIX = "text.atomess.rewards.";
+
+
     public static final Logger LOGGER = LogManager.getLogger(MOD_ID);
 
     public static MinecraftServer SERVER = ServerLifecycleHooks.getCurrentServer();
 
     public static boolean isCurios = false;
     public static boolean isLuckPerms = false;
+
     public static void sendMessageToAllPlayers(Component message, boolean actionBar) {
         new Thread(() -> Optional.ofNullable(SERVER).ifPresent(server -> server.getPlayerList().getPlayers()
                 .forEach(player -> player.displayClientMessage(message, actionBar)))).start();
