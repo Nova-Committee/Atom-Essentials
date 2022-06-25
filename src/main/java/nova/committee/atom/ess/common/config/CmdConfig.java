@@ -5,7 +5,7 @@ import nova.committee.atom.ess.api.common.config.AbstractModConfig;
 import nova.committee.atom.ess.common.cmd.admin.FlyCmd;
 import nova.committee.atom.ess.common.cmd.admin.OpenInvCmd;
 import nova.committee.atom.ess.common.cmd.member.TrashcanCmd;
-import nova.committee.atom.ess.common.cmd.misc.HatCmd;
+import nova.committee.atom.ess.common.cmd.member.HatCmd;
 import nova.committee.atom.ess.common.cmd.teleport.*;
 
 /**
@@ -104,11 +104,15 @@ public class CmdConfig extends AbstractModConfig {
     private ForgeConfigSpec.ConfigValue<? extends String> trashcanAlias;
     private ForgeConfigSpec.IntValue cleanTrashcanIntervalSeconds;
 
+    // sign
+    private ForgeConfigSpec.BooleanValue isSignEnable;
+    private ForgeConfigSpec.ConfigValue<? extends String> signAlias;
 
 
     public CmdConfig(ForgeConfigSpec.Builder builder) {
         super(builder);
     }
+
     @Override
     public void init() {
         this.builder.push("Commands");
@@ -404,6 +408,20 @@ public class CmdConfig extends AbstractModConfig {
         this.builder.pop();
 
 
+        this.builder.push("Sign");
+        isSignEnable = this.builder
+                .comment("Set it to false to disable /sign command.",
+                        "Default value: true",
+                        "This option only work after server restarted or typed /reload command")
+                .define("IsSignEnable", true);
+        signAlias = this.builder
+                .comment("How to trigger command sign.",
+                        "Default value: sign",
+                        "Do not add \"/\"!")
+                .define("SignAlias", "sign", CmdConfig::isValidCommandAlias);
+        this.builder.pop();
+
+
         // /essential ....
         this.builder.push("atomess");
         this.builder.push("GetRegistryName");
@@ -415,6 +433,7 @@ public class CmdConfig extends AbstractModConfig {
                 .defineInRange("Radius", 3, 1, Integer.MAX_VALUE);
         this.builder.pop();
         this.builder.pop();
+
 
         this.builder.pop();
     }

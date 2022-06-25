@@ -20,8 +20,12 @@ import java.util.function.Supplier;
  */
 public class UserRewardsForCurrentMonthPacket extends IPacket<UserRewardsForCurrentMonthPacket> {
 
-    protected final CompoundTag data;
-    protected final int rewardedDays;
+    protected CompoundTag data;
+    protected int rewardedDays;
+
+    public UserRewardsForCurrentMonthPacket() {
+
+    }
 
     public UserRewardsForCurrentMonthPacket(CompoundTag data, int rewardedDays) {
         this.rewardedDays = rewardedDays;
@@ -43,11 +47,13 @@ public class UserRewardsForCurrentMonthPacket extends IPacket<UserRewardsForCurr
 
     @Override
     public UserRewardsForCurrentMonthPacket read(FriendlyByteBuf friendlyByteBuf) {
-        return null;
+        return new UserRewardsForCurrentMonthPacket(friendlyByteBuf.readAnySizeNbt(), friendlyByteBuf.readInt());
     }
 
     @Override
     public void write(UserRewardsForCurrentMonthPacket generalRewardsForCurrentMonthPacket, FriendlyByteBuf friendlyByteBuf) {
+        friendlyByteBuf.writeInt(this.rewardedDays);
+        friendlyByteBuf.writeNbt(this.data);
     }
 
     @Override

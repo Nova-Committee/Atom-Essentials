@@ -5,8 +5,9 @@ import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 import nova.committee.atom.ess.common.cmd.admin.*;
 import nova.committee.atom.ess.common.cmd.member.BanItemListCmd;
+import nova.committee.atom.ess.common.cmd.member.SignCmd;
 import nova.committee.atom.ess.common.cmd.member.TrashcanCmd;
-import nova.committee.atom.ess.common.cmd.misc.HatCmd;
+import nova.committee.atom.ess.common.cmd.member.HatCmd;
 import nova.committee.atom.ess.common.cmd.teleport.*;
 
 /**
@@ -53,5 +54,7 @@ public class CmdHandler {
         UnBanItemCmd.register(dispatcher);
 
         HatCmd.register(dispatcher);
+
+        SignCmd.register(dispatcher);
     }
 }

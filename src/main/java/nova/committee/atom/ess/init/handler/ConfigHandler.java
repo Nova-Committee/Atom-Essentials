@@ -41,7 +41,7 @@ public class ConfigHandler {
 
         );
         configs.forEach(AbstractModConfig::init);
-        Static.LOGGER.info("SCE Config init!");
+        Static.LOGGER.info("AES Config init!");
         return configs;
     }
 
@@ -52,13 +52,13 @@ public class ConfigHandler {
     @SubscribeEvent
     public static void onLoading(ModConfigEvent.Loading event) {
         get(CONFIGS);
-        Static.LOGGER.info("SCE Config loaded!");
+        Static.LOGGER.info("AES Config loaded!");
     }
 
     @SubscribeEvent
     public static void onReloading(ModConfigEvent.Reloading event) {
         get(CONFIGS);
-        Static.LOGGER.info("SCE Config Reloaded!");
+        Static.LOGGER.info("AES Config Reloaded!");
     }
 
     public static boolean isResourceLocationList(Object o) {

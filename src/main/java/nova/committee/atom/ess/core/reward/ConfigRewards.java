@@ -13,6 +13,7 @@ import nova.committee.atom.ess.Static;
 import nova.committee.atom.ess.util.RewardUtil;
 import org.apache.logging.log4j.Logger;
 
+import javax.json.Json;
 import java.time.LocalDate;
 import java.time.YearMonth;
 import java.util.*;
@@ -189,21 +190,51 @@ public class ConfigRewards {
 
     public JsonObject toDefaultJson() {
         JsonObject jsonObject = new JsonObject();
+        JsonObject items = new JsonObject();
+
 
         List<ItemStack> normal = new ArrayList<>();
         normal.add(Items.DIAMOND.getDefaultInstance());
 
         List<ItemStack> rare = new ArrayList<>();
-        normal.add(Items.EMERALD.getDefaultInstance());
+        rare.add(Items.EMERALD.getDefaultInstance());
 
         jsonObject.add("normalFillItems", stacksToArray(normal));
 
         jsonObject.add("rareFillItems", stacksToArray(rare));
 
         for (int i = 1; i < 13; i++) {
-            jsonObject.add(String.valueOf(i), new JsonArray());//todo: default monthly rewards
+            JsonArray array = new JsonArray();
+
+            switch (i) {
+                case 1, 5, 7, 8, 10, 12, 3 -> {
+                    for (int j = 1; j < 32; j++)
+                        addDefaultItems(array);
+                }
+                case 2 -> {
+                    if (getCurrentYear() % 4 == 0 && getCurrentYear() % 100 != 0)
+                        for (int j = 1; j < 30; j++)
+                            addDefaultItems(array);
+                    else
+                        for (int j = 1; j < 29; j++)
+                            addDefaultItems(array);
+
+                }
+                case 4, 6, 9, 11 -> {
+                    for (int j = 1; j < 31; j++)
+                        addDefaultItems(array);
+                }
+            }
+
+            items.add(String.valueOf(i), array);
         }
+
+        jsonObject.add("itemList", items);
         return jsonObject;
+    }
+
+    public void addDefaultItems(JsonArray array) {
+        array.add(Objects.requireNonNull(Items.APPLE.getRegistryName()).toString());
     }
 
     public void fromJson(JsonObject jsonObject) {
@@ -215,11 +246,11 @@ public class ConfigRewards {
         defaultRewardConfig.putIfAbsent("rareFillItems", arrayToStacks(rareFillItems));
 
         JsonObject items = jsonObject.getAsJsonObject("itemList");
-        for (int i = 1; i < 13; i++) {
-            JsonArray moths = items.getAsJsonArray(String.valueOf(i));
-            rewardItemsMap.putIfAbsent(String.valueOf(i), arrayToStacks(moths));
-
-        }
+        if (items != null)
+            for (int i = 1; i < 13; i++) {
+                JsonArray moths = items.getAsJsonArray(String.valueOf(i));
+                rewardItemsMap.putIfAbsent(String.valueOf(i), arrayToStacks(moths));
+            }
     }
 
     public JsonObject toJson() {

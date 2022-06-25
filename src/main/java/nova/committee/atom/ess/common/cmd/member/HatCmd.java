@@ -1,4 +1,4 @@
-package nova.committee.atom.ess.common.cmd.misc;
+package nova.committee.atom.ess.common.cmd.member;
 
 import com.mojang.brigadier.CommandDispatcher;
 import com.mojang.brigadier.context.CommandContext;

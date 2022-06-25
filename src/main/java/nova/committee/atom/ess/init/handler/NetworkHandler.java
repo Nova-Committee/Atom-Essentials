@@ -37,6 +37,9 @@ public class NetworkHandler {
     public static void init(FMLCommonSetupEvent event) {
         event.enqueueWork(() -> {
             INSTANCE.register(ClearTrashPacket.class, new ClearTrashPacket());
+            INSTANCE.register(GeneralRewardsForCurrentMonthPacket.class, new GeneralRewardsForCurrentMonthPacket());
+            INSTANCE.register(UserRewardsForCurrentMonthPacket.class, new UserRewardsForCurrentMonthPacket());
+
         });
 
     }

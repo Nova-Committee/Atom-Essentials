@@ -19,7 +19,11 @@ import java.util.function.Supplier;
  * Version: 1.0
  */
 public class GeneralRewardsForCurrentMonthPacket extends IPacket<GeneralRewardsForCurrentMonthPacket> {
-    protected final CompoundTag data;
+    protected CompoundTag data;
+
+    public GeneralRewardsForCurrentMonthPacket() {
+
+    }
 
     public GeneralRewardsForCurrentMonthPacket(CompoundTag data) {
         this.data = data;
@@ -35,11 +39,12 @@ public class GeneralRewardsForCurrentMonthPacket extends IPacket<GeneralRewardsF
 
     @Override
     public GeneralRewardsForCurrentMonthPacket read(FriendlyByteBuf friendlyByteBuf) {
-        return null;
+        return new GeneralRewardsForCurrentMonthPacket(friendlyByteBuf.readAnySizeNbt());
     }
 
     @Override
     public void write(GeneralRewardsForCurrentMonthPacket generalRewardsForCurrentMonthPacket, FriendlyByteBuf friendlyByteBuf) {
+        friendlyByteBuf.writeNbt(this.data);
     }
 
     @Override

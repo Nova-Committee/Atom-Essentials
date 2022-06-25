@@ -40,13 +40,13 @@ public class RewardsHandler {
 
     private static final Logger log = Static.LOGGER;
     private static final short REWARD_CHECK_TICK = 20 * 60; // every 1 Minute
-    private static final MutableComponent claimCommand = new TextComponent("/ess sign")
+    private static final MutableComponent claimCommand = new TextComponent("/sign")
             .setStyle(Style.EMPTY.withColor(ChatFormatting.GREEN).withClickEvent(
-                    new ClickEvent(ClickEvent.Action.SUGGEST_COMMAND, "/ess sign")));
+                    new ClickEvent(ClickEvent.Action.SUGGEST_COMMAND, "/sign")));
     @ConfigField
     public static int rewardTimePerDay = 30;
-    public static UserRewards userRewards;
-    public static ConfigRewards configRewards;
+    public static UserRewards userRewards = new UserRewards();
+    public static ConfigRewards configRewards = new ConfigRewards();
     private static int rewardTimePerDayTicks = 30 * 60 * 20;
     private static short ticker = 0;
     private static Set<ServerPlayer> playerList = ConcurrentHashMap.newKeySet();
